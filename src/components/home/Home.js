@@ -1,4 +1,10 @@
+// import styled from "styled-components";
+import Header from "../header/Header";
 const Home = () => {
-  return <div>Home Page</div>;
+  return (
+    <div>
+      <Header />
+    </div>
+  );
 };
 export default Home;
