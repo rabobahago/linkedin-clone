@@ -5,7 +5,7 @@ const Header = () => {
       <Content>
         <Logo>
           <a href="/home" alt="">
-            <img src="/image/home-logo.svg" alt="" />
+            <img src="/images/home-logo.svg" alt="" />
           </a>
         </Logo>
         <Search>
@@ -13,17 +13,57 @@ const Header = () => {
             <input type="text" placeholder="Search" />
           </div>
           <SearchIcon>
-            <img src="/image/search-logo.svg" alt="" />
+            <img src="/images/search-logo.svg" alt="" />
           </SearchIcon>
         </Search>
         <Nav>
           <NavListWrap>
-            <NavList>
+            <NavList className="active">
               <a>
-                <img src="/image/nav-home.svg" alt="" />
+                <img src="/images/nav-home.svg" alt="" />
                 <span>Home</span>
               </a>
             </NavList>
+            <NavList>
+              <a>
+                <img src="/images/nav-network.svg" alt="" />
+                <span>My Network</span>
+              </a>
+            </NavList>
+            <NavList>
+              <a>
+                <img src="/images/nav-jobs.svg" alt="" />
+                <span>Jobs</span>
+              </a>
+            </NavList>
+            <NavList>
+              <a>
+                <img src="/images/nav-messaging.svg" alt="" />
+                <span>Messaging</span>
+              </a>
+            </NavList>
+            <NavList>
+              <a>
+                <img src="/images/nav-notifications.svg" alt="" />
+                <span>notifications</span>
+              </a>
+            </NavList>
+            <User>
+              <a>
+                <img src="/images/user.svg" />
+                <span>me</span>
+                <img src="/images/down-icon.svg" />
+              </a>
+            </User>
+            <Work>
+              <a>
+                <img src="/images/nav-work.svg" alt="" />
+                <span>
+                  work
+                  <img src="/images/down-icon.svg" />
+                </span>
+              </a>
+            </Work>
           </NavListWrap>
         </Nav>
       </Content>
@@ -102,12 +142,26 @@ const NavListWrap = styled.ul`
   display: flex;
   list-style-type: none;
   flex-wrap: nowrap;
+  .active {
+    span:after {
+      content: " ";
+      transform: scale(1);
+      border-bottom: 1px solid var(--white, #fff);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      transition: transform 0.2s ease-in-out;
+      width: 100%;
+      border-color: rgba(0, 0, 0, 0.9);
+    }
+  }
 `;
 const NavList = styled.li`
   display: flex;
   align-items: center;
   a {
     align-items: center;
+    cursor: pointer;
     background: transparent;
     display: flex;
     flex-direction: column;
@@ -135,5 +189,23 @@ const NavList = styled.li`
       }
     }
   }
+`;
+const User = styled(NavList)`
+  a > svg {
+    width: 24px;
+    border-radius: 50%;
+  }
+  a > img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+  }
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+const Work = styled(User)`
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
 `;
 export default Header;
