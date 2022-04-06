@@ -1,39 +1,97 @@
+import { useState } from "react";
 import styled from "styled-components";
-const PostModal = () => {
+import ReactPlayer from "react-player";
+const PostModal = (props) => {
+  const [editorText, setEditorText] = useState("");
+  const [shareImage, setShareImage] = useState("");
+  const [videoLink, setVideoLink] = useState("");
+  const reset = (e) => {
+    setEditorText("");
+    props.handleClick(e);
+  };
+  const handleChange = (e) => {
+    const image = e.target.files[0];
+    if (image === "" || image === undefined) {
+      alert(`not an image, the file is a ${typeof image}`);
+      return;
+    }
+    setShareImage(image);
+  };
   return (
-    <Container>
-      <Content>
-        <Header>
-          <h2>Create a post</h2>
-          <button>
-            <img src="/images/close-icon.svg" alt="" />
-          </button>
-        </Header>
-        <SharedContent>
-          <UserInfo>
-            <img src="/images/user.svg" alt="" />
-            <span>Name</span>
-          </UserInfo>
-        </SharedContent>
-        <SharedCreation>
-          <AttachAssets>
-            <AssetButton>
-              <img src="/images/share-image.svg" alt="" />
-            </AssetButton>
-            <AssetButton>
-              <img src="/images/share-video.svg" alt="" />
-            </AssetButton>
-          </AttachAssets>
-          <SharedComment>
-            <AssetButton>
-              <img src="/images/share-comment.svg" alt="" />
-              Anyone
-            </AssetButton>
-          </SharedComment>
-          <PostButton>button</PostButton>
-        </SharedCreation>
-      </Content>
-    </Container>
+    <>
+      {props.showModal === "open" && (
+        <Container>
+          <Content>
+            <Header>
+              <h2>Create a post</h2>
+              <button onClick={(e) => reset(e)}>
+                <img src="/images/close-icon.svg" alt="" />
+              </button>
+            </Header>
+            <SharedContent>
+              <UserInfo>
+                <img src="/images/user.svg" alt="" />
+                <span>Name</span>
+              </UserInfo>
+              <Editor>
+                <textarea
+                  value={editorText}
+                  onChange={(e) => {
+                    setEditorText(e.target.value);
+                  }}
+                  placeholder="What do you want to talk about"
+                  autoFocus={true}
+                />
+                <UploadImage>
+                  <input
+                    type="file"
+                    accept="image/gif, image/jpeg, image/png"
+                    name="image"
+                    id="file"
+                    style={{ display: "none" }}
+                    onChange={handleChange}
+                  />
+                  <p>
+                    <label htmlFor="file">select an image to share</label>
+                  </p>
+                  {shareImage && <img src={URL.createObjectURL(shareImage)} />}
+                  <>
+                    <input
+                      type="text"
+                      placeholder="input a video link"
+                      value={videoLink}
+                      onChange={(e) => setVideoLink(e.target.value)}
+                    />
+                    {videoLink && (
+                      <ReactPlayer width={"100%"} url={videoLink} />
+                    )}
+                  </>
+                </UploadImage>
+              </Editor>
+            </SharedContent>
+            <SharedCreation>
+              <AttachAssets>
+                <AssetButton>
+                  <img src="/images/share-image.svg" alt="" />
+                </AssetButton>
+                <AssetButton>
+                  <img src="/images/share-video.svg" alt="" />
+                </AssetButton>
+              </AttachAssets>
+              <SharedComment>
+                <AssetButton>
+                  <img src="/images/share-comment.svg" alt="" />
+                  Anyone
+                </AssetButton>
+              </SharedComment>
+              <PostButton disabled={!editorText ? true : false}>
+                button
+              </PostButton>
+            </SharedCreation>
+          </Content>
+        </Container>
+      )}
+    </>
   );
 };
 
@@ -46,6 +104,7 @@ const Container = styled.div`
   z-index: 999;
   color: black;
   background-color: rgba(0, 0, 0, 0.8);
+  animation: fadeIn 0.3s;
 `;
 const Content = styled.div`
   width: 100%;
@@ -76,7 +135,8 @@ const Header = styled.div`
     width: 40px;
     min-width: auto;
     color: rgba(0, 0, 0, 0.15);
-    svg {
+    svg,
+    img {
       pointer-events: none;
     }
   }
@@ -120,6 +180,7 @@ const AssetButton = styled.button`
   height: 40px;
   min-width: auto;
   color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
 `;
 const AttachAssets = styled.div`
   align-items: center;
@@ -145,10 +206,35 @@ const PostButton = styled.button`
   border-radius: 20px;
   padding-left: 16px;
   padding-right: 16px;
-  color: white;
-  background-color: #0a66c2;
+  color: ${(props) => (props.disabled ? "rgba(1, 1, 1, 0.2)" : "white")};
+  background-color: ${(props) =>
+    props.disabled ? "rgba(0, 0, 0, 0.8)" : "#0a66c2"};
+  cursor: pointer;
   &:hover {
-    background-color: #004182;
+    background-color: ${(props) =>
+      props.disabled ? "rgba(0, 0, 0, 0.08)" : "#004182"};
+    cursor: pointer;
+  }
+`;
+
+const Editor = styled.div`
+  padding: 12px 24px;
+  textarea {
+    width: 100%;
+    min-height: 100px;
+    resize: none;
+  }
+  input {
+    width: 100%;
+    height: 35px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+`;
+const UploadImage = styled.div`
+  text-align: center;
+  img {
+    width: 100%;
   }
 `;
 export default PostModal;

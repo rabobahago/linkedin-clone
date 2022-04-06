@@ -76,6 +76,7 @@ const FeedList = styled.ul`
       flex-direction: column;
     }
     button {
+      cursor: pointer;
       background-color: transparent;
       color: rgba(0, 0, 0, 0.6);
       box-shadow: insert 0 0 0 1px rgba(0, 0, 0, 0.6);

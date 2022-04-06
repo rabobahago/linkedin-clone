@@ -1,12 +1,31 @@
+import { useState } from "react";
 import styled from "styled-components";
 import PostModal from "../postmodal/PostModal";
 const Main = () => {
+  const [showModal, setShowModal] = useState("close");
+  const handleClick = (event) => {
+    event.preventDefault();
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+    switch (showModal) {
+      case "open":
+        setShowModal("close");
+        break;
+      case "close":
+        setShowModal("open");
+        break;
+      default:
+        setShowModal("close");
+        break;
+    }
+  };
   return (
     <Container>
       <ShareBox>
         <div>
           <img src="/images/user.svg" alt="" />
-          <button>Start a Post</button>
+          <button onClick={handleClick}>Start a Post</button>
         </div>
         <div>
           <button>
@@ -89,7 +108,7 @@ const Main = () => {
           </SocialActions>
         </Article>
       </div>
-      <PostModal />
+      <PostModal showModal={showModal} handleClick={handleClick} />
     </Container>
   );
 };
@@ -124,6 +143,7 @@ const ShareBox = styled(CommonCard)`
       display: flex;
       align-items: center;
       font-weight: 600;
+      cursor: pointer;
     }
     &:first-child {
       display: flex;
@@ -142,6 +162,7 @@ const ShareBox = styled(CommonCard)`
         border: 1px solid rgba(0, 0, 0, 0.15);
         background: white;
         text-align: left;
+        cursor: pointer;
       }
     }
     &:nth-child(2) {
@@ -150,6 +171,7 @@ const ShareBox = styled(CommonCard)`
       justify-content: space-around;
       padding-bottom: 4px;
       button {
+        cursor: pointer;
         img {
           margin: 0 4px 0 -2px;
         }
@@ -256,6 +278,7 @@ const SocialActions = styled.div`
   min-height: 40px;
   padding: 4 8px;
   button {
+    cursor: pointer;
     display: inline-flex;
     align-items: center;
     padding: 8px;

@@ -158,6 +158,7 @@ const Item = styled.a`
     }
   }
   &:hover {
+    cursor: pointer;
     background-color: rgba(0, 0, 0, 0.08);
   }
 `;
@@ -185,6 +186,7 @@ const CommunityCard = styled(ArtCard)`
       border-top: 1px solid #d6cecd;
       padding: 12px;
       &:hover {
+        cursor: pointer;
         background-color: rgba(0, 0, 0, 0.08);
       }
     }
